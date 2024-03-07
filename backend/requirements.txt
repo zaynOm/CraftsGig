@@ -2,3 +2,7 @@ Flask-SQLAlchemy
 flask-smorest
 flask-migrate
 python-dotenv
+mysqlclient
+flask-cors
+passlib
+flask-jwt-extended

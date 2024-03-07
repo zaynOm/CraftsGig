@@ -7,6 +7,7 @@ def init_db(app):
 
 def create_tables(app):
     with app.app_context():
+        import models
         db.create_all()
 
 def teardown_db(app, e=None):

@@ -1,53 +1,45 @@
-from flask_smorest import Blueprint, abort
+from flask_smorest import Blueprint
 from flask.views import MethodView
-from sqlalchemy.exc import SQLAlchemyError
-from schemas import UserSchema, UserUpdateSchema
 
 from db import db
-from models.user import UserModel
+from models.user import User
+from schemas.userSchema import UserSchema
+from utils.jwt_required_doc import jwt_required_with_doc
 
 blp = Blueprint('Users', __name__)
 
+
+blp.openapi_sec_requires = [{"BearerAuth": []}]
+
+#? This is for testing don't ship is in production 
 @blp.route('/users')
 class Users(MethodView):
 
+    @jwt_required_with_doc()
     @blp.response(200, UserSchema(many=True))
     def get(self):
-        return UserModel.query.all()
+        return User.query.all()
 
-    @blp.arguments(UserSchema)
-    @blp.response(201, UserSchema)
-    def post(self, user_data):
-        user = UserModel(**user_data)
-        try:
-            db.session.add(user)
-            db.session.commit()
-        except SQLAlchemyError as e:
-            print(e)    
-            abort(400, message='Failed to create User')
-
-        return user
-        
-
-
-@blp.route('/users/<string:user_id>')
-class User(MethodView):
+@blp.route('/users/<int:user_id>')
+class UserById(MethodView):
 
     @blp.response(200, UserSchema)
     def get(self, user_id):
-        return UserModel.query.get_or_404(user_id)
+        return User.query.get_or_404(user_id)
     
-    @blp.arguments(UserUpdateSchema(partial=True))
+    @jwt_required_with_doc()
+    @blp.arguments(UserSchema(partial=True))
     @blp.response(200, UserSchema)
     def put(self, user_data, user_id):
-        user = UserModel.query.get_or_404(user_id)
+        user = User.query.get_or_404(user_id)
 
         user.update(**user_data)
         db.session.commit()
         return user
     
+    @jwt_required_with_doc()
     def delete(self, user_id):
-        user = UserModel.query.get_or_404(user_id)
+        user = User.query.get_or_404(user_id)
         db.session.delete(user)
         db.session.commit()
         return {'message': 'User was deleted'}, 200
