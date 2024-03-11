@@ -43,6 +43,23 @@ def create_app():
     api.spec.components.security_scheme(
     "bearerAuth", {"type":"http", "scheme": "bearer", "bearerFormat": "JWT"}
     )
+
+    create_tables(app)
+
+    # register Blueprints here
+    api.register_blueprint(AuthBlueprint)
+    api.register_blueprint(UserBlueprint)
+    api.register_blueprint(GigBlueprint)
+    api.register_blueprint(CityBlueprint)
+    api.register_blueprint(DomainBlueprint)
+    api.register_blueprint(ReviewBlueprint)
+    api.register_blueprint(FilterBlueprint)
+
+
+
+    return app
+
+
     #api.spec.options["security"] = [{"bearerAuth": []}]
     
     # @jwt.additional_claims_loader
@@ -99,18 +116,3 @@ def create_app():
     #         ),
     #         401,
     #     )
-
-    create_tables(app)
-
-    # register Blueprints here
-    api.register_blueprint(AuthBlueprint)
-    api.register_blueprint(UserBlueprint)
-    api.register_blueprint(GigBlueprint)
-    api.register_blueprint(CityBlueprint)
-    api.register_blueprint(DomainBlueprint)
-    api.register_blueprint(ReviewBlueprint)
-    api.register_blueprint(FilterBlueprint)
-
-
-
-    return app

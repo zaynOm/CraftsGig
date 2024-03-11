@@ -3,13 +3,11 @@ from flask.views import MethodView
 
 from db import db
 from models.user import User
-from schemas.userSchema import UserSchema
+from schemas.userSchema import UserSchema, WorkerSchema
 from utils.jwt_required_doc import jwt_required_with_doc
 
 blp = Blueprint('Users', __name__)
 
-
-blp.openapi_sec_requires = [{"BearerAuth": []}]
 
 #? This is for testing don't ship is in production 
 @blp.route('/users')
@@ -23,9 +21,13 @@ class Users(MethodView):
 @blp.route('/users/<int:user_id>')
 class UserById(MethodView):
 
-    @blp.response(200, UserSchema)
+    @blp.response(200)
     def get(self, user_id):
-        return User.query.get_or_404(user_id)
+        user = User.query.get_or_404(user_id)
+        if user.role == 'user':
+            return UserSchema().dump(user)
+
+        return WorkerSchema().dump(user)
     
     @jwt_required_with_doc()
     @blp.arguments(UserSchema(partial=True))

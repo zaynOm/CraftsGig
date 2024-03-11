@@ -9,7 +9,7 @@ from flask_jwt_extended import (create_access_token,
 
 from db import db
 from models.user import User
-from schemas.loginSchema import LoginSchema
+from schemas.authSchema import LoginSchema
 from schemas.userSchema import UserSchema
 from utils.jwt_required_doc import jwt_required_with_doc
 
@@ -19,7 +19,6 @@ blp = Blueprint('auth', __name__)
 
 @blp.post('/register')
 @blp.arguments(UserSchema)
-@blp.response(201, UserSchema)
 def register(user_data):
     hashed_pw = pbkdf2_sha256.hash(user_data.get('password'))
     user_data['password'] = hashed_pw
@@ -30,7 +29,7 @@ def register(user_data):
     except SQLAlchemyError as e:
         abort(400, message='Failed to create User', exc=e)
 
-    return user
+    return {'message': 'Registered successful'}
 
 # TODO: the token should be stored in the cookie
 @blp.post('/login')
