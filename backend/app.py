@@ -21,7 +21,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-environment = app.config.get('FLASK_ENV', 'development')
+environment = environ.get('FLASK_ENV', 'development')
 
 if environment == 'production':
     app.config.from_object('config.ProductionConfig')
