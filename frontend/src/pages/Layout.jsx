@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
+import { CircleUserRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -6,16 +7,18 @@ import { useAuth } from "@/context/AuthContext";
 function Layout() {
   const { authenticated } = useAuth();
   return (
-    <main>
+    <>
       <header>
-        <nav className="flex items-center p-4">
+        <nav className="flex items-center justify-between p-4">
           <Link to="/" className="text-2xl font-extrabold">
             CraftsMan
           </Link>
           {authenticated ? (
-            "logedin"
+            <NavLink to="/profile" className="flex">
+              <CircleUserRound size={40} strokeWidth={1.5} />
+            </NavLink>
           ) : (
-            <div className="ml-auto flex gap-3">
+            <div className="flex gap-3">
               <NavLink to="/login">
                 <Button>Login</Button>
               </NavLink>
@@ -27,7 +30,7 @@ function Layout() {
         </nav>
       </header>
       <Outlet />
-    </main>
+    </>
   );
 }
 

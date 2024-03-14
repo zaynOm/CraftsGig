@@ -23,6 +23,20 @@ export function Combobox({ filterKey, data, handleChange }) {
 
   const lableKey = filterKey === "city" ? "name" : "title";
 
+  const handleOnSelect = (currValue, item) => {
+    handleChange((prev) => {
+      if (currValue === value.toLowerCase()) {
+        prev.delete(filterKey);
+        setValue("");
+      } else {
+        prev.set(filterKey, item.id);
+        setValue(item[lableKey]);
+      }
+      return prev;
+    });
+    setOpen(false);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -30,7 +44,7 @@ export function Combobox({ filterKey, data, handleChange }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between"
+          className="w-40 justify-between"
         >
           {value ? value : `Select ${filterKey}...`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -41,30 +55,22 @@ export function Combobox({ filterKey, data, handleChange }) {
           <CommandInput placeholder={`Search ${filterKey}...`} />
           <CommandEmpty>No {filterKey} found.</CommandEmpty>
           <CommandGroup>
-            {data.map((item) => (
-              <CommandItem
-                key={item.id}
-                value={item.id}
-                onSelect={(currentValue) => {
-                  setValue(
-                    currentValue === value.toLowerCase() ? "" : item[lableKey],
-                  );
-                  handleChange((prev) => {
-                    prev.set(filterKey, item.id);
-                    return prev;
-                  });
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === item[lableKey] ? "opacity-100" : "opacity-0",
-                  )}
-                />
-                {item[lableKey]}
-              </CommandItem>
-            ))}
+            {data &&
+              data.map((item) => (
+                <CommandItem
+                  key={item.id}
+                  value={item.id}
+                  onSelect={(currValue) => handleOnSelect(currValue, item)}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === item[lableKey] ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  {item[lableKey]}
+                </CommandItem>
+              ))}
           </CommandGroup>
         </Command>
       </PopoverContent>

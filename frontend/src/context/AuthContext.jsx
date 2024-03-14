@@ -1,20 +1,38 @@
+import decodeJWT from "@/lib/decodeJWT";
 import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(
+    !!localStorage.getItem("access_token"),
+  );
 
-  const login = () => {
+  const login = (token) => {
+    localStorage.setItem("access_token", token);
     setAuthenticated(true);
   };
 
   const logout = () => {
+    localStorage.removeItem("access_token");
     setAuthenticated(false);
   };
 
+  const getUserId = () => {
+    if (!authenticated) return null;
+    const token = localStorage.getItem("access_token");
+    const userId = decodeJWT(token).sub;
+    return userId;
+  };
+
+  const getToken = () => {
+    return localStorage.getItem("access_token");
+  };
+
   return (
-    <AuthContext.Provider value={{ authenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ authenticated, login, logout, getUserId, getToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

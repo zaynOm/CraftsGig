@@ -4,7 +4,7 @@ function useFetchDomains() {
   const [domains, setDomains] = useState([]);
 
   const fetchDomains = async () => {
-    const res = await fetch("http://127.0.0.1:5000/domains");
+    const res = await fetch("/api/domains");
     if (!res.ok) throw res.statusText;
     const json = await res.json();
     setDomains(json);

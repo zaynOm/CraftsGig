@@ -9,26 +9,30 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import useFetchCities from "@/hooks/useFetchCities";
 import useFetchDomains from "@/hooks/useFetchDomains";
+import useQueryFetch from "@/hooks/useQueryFetch";
 
 function Home() {
   const cities = useFetchCities();
   const domains = useFetchDomains();
   const isAvailable = useRef(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    search: "",
-    city: "",
-    domain: "",
-    isAvailable: "",
-  });
+  const query = useQueryFetch("gigs", `/gigs?${searchParams}`);
+  const { refetch } = query;
 
   const handleFilterChange = (e, filterKey) => {
     const value = typeof e === "boolean" ? e : e.target.value;
 
-    setSearchParams((prev) => {
-      prev.set(filterKey, value);
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.set(filterKey, value);
+        if (!value) {
+          prev.delete(filterKey);
+        }
+        return prev;
+      },
+      { replace: true },
+    );
   };
 
   return (
@@ -45,7 +49,7 @@ function Home() {
           filterKey="city"
           data={cities}
           handleChange={setSearchParams}
-        />{" "}
+        />
         <Combobox
           filterKey="domain"
           data={domains}
@@ -60,12 +64,12 @@ function Home() {
           />
           Is Available
         </label>
-        <Button>
+        <Button onClick={refetch}>
           Filter
           <Filter className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </div>
-      <GigsList />
+      <GigsList query={query} />
     </div>
   );
 }

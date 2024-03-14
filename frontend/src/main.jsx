@@ -5,11 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./index.css";
 import Layout from "@/pages/Layout";
-import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Gig from "./pages/Gig";
+import Register from "@/pages/Register";
+import Login from "@/pages/Login";
+import Home from "@/pages/Home";
+import Gig from "@/pages/Gig";
+import Profile from "@/pages/Profile";
+import NotFound from "@/pages/NotFound";
 import { AuthProvider } from "@/context/AuthContext";
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/gigs/:Id",
         element: <Gig />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "*",

@@ -1,4 +1,4 @@
-// TODO: add rating stars
+import RatingStars from "./RatingStars";
 
 export default function ReviewCard({ review }) {
   const created_at = new Date(review.created_at).toLocaleString("default", {
@@ -8,17 +8,24 @@ export default function ReviewCard({ review }) {
   });
 
   return (
-    <div className="min-h40  w-[42rem] border-2 border-black px-8 py-4">
+    <div className="min-h40 w-[50rem] rounded-md border border-input px-8 py-4">
       <div className="flex justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-md bg-black" />
-          <h3>
+        <div className="flex  gap-3">
+          <h3 className="text-xl font-bold">
             {review.author.first_name} {review.author.last_name}
           </h3>
         </div>
         <span>{created_at}</span>
       </div>
-      <h2 className="m-3">{review.comment}</h2>
+      <div className="ml-[-5px]">
+        <RatingStars
+          rating={review.rating}
+          color="black"
+          isDisabled={true}
+          className="output-star size-5"
+        />
+      </div>
+      <h2 className="my-3">{review.comment}</h2>
     </div>
   );
 }

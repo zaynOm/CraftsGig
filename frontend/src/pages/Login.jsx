@@ -26,7 +26,7 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/login", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,8 +37,7 @@ function Login() {
       if (!res.ok) throw new Error(res.status);
 
       const result = await res.json();
-      localStorage.setItem("access_token", result.access_token);
-      login();
+      login(result.access_token);
       navigate("/");
     } catch (error) {
       setError("root", {
@@ -51,7 +50,7 @@ function Login() {
     <div className="flex h-dvh flex-col items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex h-[30rem] w-[40%] flex-col gap-2 border-2 border-black p-32"
+        className="flex w-[40%] flex-col gap-6 rounded-md border border-input p-32"
       >
         <h1>Login</h1>
         <Input {...register("email")} type="text" placeholder="Email" />
