@@ -13,7 +13,7 @@ class UserSchema(BaseSchema):
     last_name = fields.Str(required=True)
     birth_date = fields.Date(required=True)
     email = fields.Email(required=True)
-    password = fields.Str(load_only=True, validate=Length(min=8))
+    password = fields.Str(required=True, load_only=True, validate=Length(min=8))
     role = fields.Str(required=True, validate=OneOf(['user', 'worker']))
 
 

@@ -1,5 +1,5 @@
 from flask_smorest import Blueprint, abort
-from flask import jsonify
+from flask import jsonify, request
 from sqlalchemy.exc import SQLAlchemyError
 from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import (create_access_token, 
@@ -10,7 +10,7 @@ from flask_jwt_extended import (create_access_token,
 from db import db
 from models.user import User
 from schemas.authSchema import LoginSchema
-from schemas.userSchema import UserSchema
+from schemas.userSchema import UserSchema, WorkerSchema
 from utils.jwt_required_doc import jwt_required_with_doc
 
 
@@ -18,8 +18,13 @@ blp = Blueprint('auth', __name__)
 
 
 @blp.post('/register')
-@blp.arguments(UserSchema)
-def register(user_data):
+def register():
+    user_data = request.get_json()
+    if user_data.get('role') == 'user':
+        user_data = UserSchema().load(user_data)
+    else:
+        user_data = WorkerSchema().load(user_data)
+
     hashed_pw = pbkdf2_sha256.hash(user_data.get('password'))
     user_data['password'] = hashed_pw
     user = User(**user_data)
@@ -27,9 +32,11 @@ def register(user_data):
         db.session.add(user)
         db.session.commit()
     except SQLAlchemyError as e:
+        print(e)
         abort(400, message='Failed to create User', exc=e)
 
     return {'message': 'Registered successful'}
+
 
 # TODO: the token should be stored in the cookie
 @blp.post('/login')
@@ -44,6 +51,7 @@ def login(email=None, password=None):
         return {"access_token": access_token}
     
     abort(401, message="Invalid credentials.")
+
 
 @jwt_required_with_doc()
 @blp.post('/logout')

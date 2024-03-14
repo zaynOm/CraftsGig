@@ -1,10 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_smorest import Api
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from os import environ
 from dotenv import load_dotenv
+from datetime import timedelta
 
 from db import create_tables, db, init_db
 from routes.users import blp as UserBlueprint
@@ -19,10 +20,19 @@ load_dotenv()
 
 
 app = Flask(__name__)
+
+environment = app.config.get('FLASK_ENV', 'development')
+
+if environment == 'production':
+    app.config.from_object('config.ProductionConfig')
+else:
+    app.config.from_object('config.DevelopmentConfig')
+
+
 app.config['API_TITLE'] = 'CraftsMan'
 app.config['API_VERSION'] = 'v1'
 app.config["OPENAPI_VERSION"] = "3.0.2"
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
+#app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
 
 app.config["OPENAPI_VERSION"] = "3.0.3"
 app.config["OPENAPI_URL_PREFIX"] = "/"
@@ -30,6 +40,7 @@ app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
 app.config["JWT_SECRET_KEY"] = "test_key"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
 
 
 app.json.sort_keys = False

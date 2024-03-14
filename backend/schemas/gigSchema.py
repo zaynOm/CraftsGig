@@ -6,13 +6,16 @@ from .citySchema import CitySchema
 from .reviewSchema import ReviewSchema
 
 
-class GigSchema(BaseSchema):
+class PlainGigSchema(BaseSchema):
     title = fields.Str(required=True)
     description = fields.Str(required=True)
     worker_id = fields.Int(required=True)
-    worker = fields.Nested(WorkerSchema(), dump_only=True)
-    city_id = fields.Int(required=True)
     city = fields.Nested(CitySchema(), dump_only=True)
+
+
+class GigSchema(PlainGigSchema):
+    city_id = fields.Int(required=True)
+    worker = fields.Nested(WorkerSchema(), dump_only=True)
 
 
 class CityGigsSchema(CitySchema):
