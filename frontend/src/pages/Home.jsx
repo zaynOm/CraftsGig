@@ -17,7 +17,7 @@ function Home() {
   const isAvailable = useRef(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const query = useQueryFetch("gigs", `/gigs?${searchParams}`);
+  const query = useQueryFetch("gigs", `gigs?${searchParams}`);
   const { refetch } = query;
 
   const handleFilterChange = (e, filterKey) => {
@@ -35,10 +35,8 @@ function Home() {
     );
   };
 
-  console.log(import.meta.env);
-
   return (
-    <div className="mt-20 flex h-svh flex-col items-center gap-5">
+    <div className="mt-20 flex flex-col items-center gap-5">
       <div className="flex gap-4">
         <div className="flex gap-2">
           <Input

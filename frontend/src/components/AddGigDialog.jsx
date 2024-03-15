@@ -53,7 +53,7 @@ function AddGigDialog() {
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className="size-12 rounded-full p-0">
           <Plus />
         </Button>

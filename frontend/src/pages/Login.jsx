@@ -48,7 +48,7 @@ function Login() {
   };
 
   return (
-    <div className="flex h-dvh flex-col items-center justify-center">
+    <div className="mt-40 flex flex-col items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-[40%] flex-col gap-6 rounded-md border border-input p-32"

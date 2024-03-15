@@ -19,20 +19,18 @@ export default function Profile() {
   const {
     data: user,
     isError,
-    isFetching,
-  } = useQueryFetch("user", `/users/${userId}`);
+    isLoading,
+  } = useQueryFetch("user", `users/${userId}`);
 
-  const gigsQuery = useQueryFetch("userGigs", `/users/${userId}/gigs`);
-
-  console.log(user);
-  console.log(gigsQuery.data);
+  const gigsQuery = useQueryFetch("userGigs", `users/${userId}/gigs`);
 
   if (isError) {
     return <div className="text-center">Something Went Wrong</div>;
   }
+
   return (
-    <div className="mx-auto mt-5 flex h-svh w-5/12 flex-col gap-8">
-      {isFetching ? (
+    <div className="mx-auto mt-5 flex w-5/12 flex-col gap-8">
+      {isLoading ? (
         "Loading..."
       ) : (
         <div className="my-8 space-y-20">
@@ -75,9 +73,11 @@ export default function Profile() {
           </div>
         </div>
       )}
-      <div className="absolute bottom-6 right-6">
-        {user.role === "worker" && <AddGigDialog />}
-      </div>
+      {user?.role === "worker" && (
+        <div className="absolute bottom-6 right-6">
+          <AddGigDialog />
+        </div>
+      )}
     </div>
   );
 }
@@ -93,14 +93,12 @@ function UserGigs({ query }) {
   if (isLoading || !gigs) return "Loading...";
   if (isError) return "Somthing went wrong";
 
-  console.log(gigs);
-
   return (
     <div>
       {gigs.map((gig) => (
         <div
           key={gig.id}
-          className="mb-3 h-40 w-[50rem] space-y-5 rounded-md border border-input px-8 py-4"
+          className="mb-3 h-40 w-auto space-y-5 rounded-md border border-input px-8 py-4"
         >
           <h1 className="text-lg font-bold">{gig.title}</h1>
           <h1 className="overflow-hidden overflow-ellipsis whitespace-nowrap text-lg">

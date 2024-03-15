@@ -9,14 +9,19 @@ import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 import Gig from "@/pages/Gig";
-import Profile from "@/pages/Profile";
 import NotFound from "@/pages/NotFound";
 import { AuthProvider } from "@/context/AuthContext";
+import Profile from "@/pages/Profile";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: (
+      <Layout>
+        <NotFound />
+      </Layout>
+    ),
     children: [
       {
         path: "login",
