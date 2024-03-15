@@ -23,6 +23,7 @@ import {
   CommandInput,
   CommandItem,
 } from "./ui/command";
+import BASE_URL from "@/api/apiconfig";
 
 function AddGigDialog() {
   const { getUserId, getToken } = useAuth();
@@ -35,7 +36,7 @@ function AddGigDialog() {
 
   const onSubmit = async () => {
     try {
-      const res = await fetch("/api/gigs", {
+      const res = await fetch(`${BASE_URL}/gigs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

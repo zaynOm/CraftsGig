@@ -35,6 +35,8 @@ function Home() {
     );
   };
 
+  console.log(import.meta.env);
+
   return (
     <div className="mt-20 flex h-svh flex-col items-center gap-5">
       <div className="flex gap-4">

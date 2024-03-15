@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import BASE_URL from "@/api/apiconfig";
 
 const schema = z.object({
   email: z.string().email(),
@@ -26,7 +27,7 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

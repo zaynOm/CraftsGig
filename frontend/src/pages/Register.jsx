@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 
 import DatePicker from "@/components/DatePicker";
+import BASE_URL from "@/api/apiconfig";
 
 const schema = object({
   first_name: string().min(3).required(),
@@ -65,7 +66,7 @@ function Register() {
     }
     delete data.isCraftsMan;
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch(`${BASE_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

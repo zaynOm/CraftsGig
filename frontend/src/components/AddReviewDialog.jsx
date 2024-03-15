@@ -13,6 +13,7 @@ import {
 import { Textarea } from "./ui/textarea";
 import RatingStars from "./RatingStars";
 import { useAuth } from "@/context/AuthContext";
+import BASE_URL from "@/api/apiconfig";
 
 export function AddReviewDialog({ gigId, isDisabled }) {
   const { getUserId, getToken } = useAuth();
@@ -21,7 +22,7 @@ export function AddReviewDialog({ gigId, isDisabled }) {
 
   const onSubmit = async () => {
     try {
-      const res = await fetch("/api/reviews", {
+      const res = await fetch(`${BASE_URL}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
