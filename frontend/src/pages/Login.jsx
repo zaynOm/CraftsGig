@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import BASE_URL from "@/api/apiconfig";
+import { useEffect } from "react";
 
 const schema = z.object({
   email: z.string().email(),
@@ -15,7 +16,7 @@ const schema = z.object({
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { authenticated, login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -24,6 +25,10 @@ function Login() {
   } = useForm({
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    if (authenticated) navigate("/");
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -48,7 +53,7 @@ function Login() {
   };
 
   return (
-    <div className="mt-40 flex flex-col items-center justify-center">
+    <div className="flex min-h-dvh flex-col items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-[40%] flex-col gap-6 rounded-md border border-input p-32"

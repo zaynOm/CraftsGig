@@ -29,7 +29,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="mx-auto mt-5 flex w-5/12 flex-col gap-8">
+    <div className="mx-auto mt-5 flex min-h-dvh w-5/12 flex-col">
       {isLoading ? (
         "Loading..."
       ) : (
@@ -74,7 +74,7 @@ export default function Profile() {
         </div>
       )}
       {user?.role === "worker" && (
-        <div className="absolute bottom-6 right-6">
+        <div className="fixed bottom-6 right-6">
           <AddGigDialog />
         </div>
       )}

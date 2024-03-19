@@ -8,12 +8,12 @@ function GigsList({ query }) {
   if (isError) return "Somthing went wrong";
 
   return (
-    <div className="mt-10">
+    <div className="my-10">
       {gigs.map((gig) => (
         <Link key={gig.id} to={`/gigs/${gig.id}`}>
           <div className="mb-3 h-40 w-[50rem] rounded-md border border-input py-4 pl-8">
             <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-md bg-black" />
+              <div className="h-8 w-8 rounded-full bg-black" />
               <h2>
                 {gig.worker.first_name} {gig.worker.last_name}
               </h2>

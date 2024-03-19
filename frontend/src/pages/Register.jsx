@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { object, string, number, boolean, date, ref } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -16,6 +17,7 @@ import {
 
 import DatePicker from "@/components/DatePicker";
 import BASE_URL from "@/api/apiconfig";
+import { useAuth } from "@/context/AuthContext";
 
 const schema = object({
   first_name: string().min(3).required(),
@@ -42,12 +44,17 @@ const schema = object({
 
 function Register() {
   const navigate = useNavigate();
+  const { authenticated } = useAuth();
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       isCraftsMan: false,
     },
   });
+
+  useEffect(() => {
+    if (authenticated) navigate("/");
+  }, []);
 
   const watchIsCraftsMan = form.watch("isCraftsMan");
 
