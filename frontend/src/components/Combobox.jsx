@@ -4,6 +4,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "./ui/scroll-area";
 import {
   Command,
   CommandEmpty,
@@ -50,28 +51,30 @@ export function Combobox({ filterKey, data, handleChange }) {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className=" w-[200px] p-0">
         <Command>
           <CommandInput placeholder={`Search ${filterKey}...`} />
-          <CommandEmpty>No {filterKey} found.</CommandEmpty>
-          <CommandGroup>
-            {data &&
-              data.map((item) => (
-                <CommandItem
-                  key={item.id}
-                  value={item.id}
-                  onSelect={(currValue) => handleOnSelect(currValue, item)}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === item[lableKey] ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {item[lableKey]}
-                </CommandItem>
-              ))}
-          </CommandGroup>
+          <ScrollArea className="h-52">
+            <CommandEmpty>No {filterKey} found.</CommandEmpty>
+            <CommandGroup>
+              {data &&
+                data.map((item) => (
+                  <CommandItem
+                    key={item.id}
+                    value={item.id}
+                    onSelect={(currValue) => handleOnSelect(currValue, item)}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === item[lableKey] ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                    {item[lableKey]}
+                  </CommandItem>
+                ))}
+            </CommandGroup>
+          </ScrollArea>
         </Command>
       </PopoverContent>
     </Popover>
