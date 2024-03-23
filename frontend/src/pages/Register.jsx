@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { object, string, number, boolean, date, ref } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
+import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +19,21 @@ import {
 import DatePicker from "@/components/DatePicker";
 import BASE_URL from "@/api/apiconfig";
 import { useAuth } from "@/context/AuthContext";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import useFetchDomains from "@/hooks/useFetchDomains";
 
 const schema = object({
   first_name: string().min(3).required(),
@@ -30,10 +46,14 @@ const schema = object({
     .required(),
   birth_date: date().required(),
   isCraftsMan: boolean(),
+  domain_id: number().when("isCraftsMan", {
+    is: true,
+    then: (schema) => schema.required("Domain is required"),
+  }),
   phone: string()
     .when("isCraftsMan", {
       is: true,
-      then: (schema) => schema.required("phone number is required"),
+      then: (schema) => schema.required("Phone number is required"),
     })
     .min(10),
   experience: number().when("isCraftsMan", {
@@ -59,6 +79,7 @@ function Register() {
   const watchIsCraftsMan = form.watch("isCraftsMan");
 
   const onSubmit = async (data) => {
+    console.log(data);
     data.birth_date = format(data.birth_date, "yyyy-MM-dd");
     delete data.confirm;
     data.role = data.isCraftsMan ? "worker" : "user";
@@ -171,6 +192,20 @@ function Register() {
         {watchIsCraftsMan && (
           <FormField
             control={form.control}
+            name="domain_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <DomainComboBox {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {watchIsCraftsMan && (
+          <FormField
+            control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
@@ -230,3 +265,55 @@ function Register() {
 }
 
 export default Register;
+
+const DomainComboBox = ({ onChange, ...props }) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const domains = useFetchDomains();
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-40 justify-between"
+        >
+          {value ? value : "Select domain..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className=" w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search domain..." />
+          <ScrollArea className="h-52">
+            <CommandEmpty>No domain found.</CommandEmpty>
+            <CommandGroup>
+              {domains &&
+                domains.map((domain) => (
+                  <CommandItem
+                    key={domain.id}
+                    value={domain.id}
+                    onSelect={() => {
+                      onChange(domain.id);
+                      setValue(domain.title);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === domain.title ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                    {domain.title}
+                  </CommandItem>
+                ))}
+            </CommandGroup>
+          </ScrollArea>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+};
