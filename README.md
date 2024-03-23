@@ -2,7 +2,7 @@
 
 ## Introduction
 
-CraftsGig connect's you with top-notch professionals, backed by glowing reviews from satisfied customers just like you, It help's you find reliable craftsmen quickly with CraftsGig! Browse reviews and hire trustworthy workers for your project. Check out our deployed site in [craftsgig.me](), you can learn more in [this blog article](). If you want to get in touch [here is my linkedin account](https://www.linkedin.com/in/omar-ouaziz).
+CraftsGig connect's you with top-notch professionals, backed by glowing reviews from satisfied customers just like you, It help's you find reliable craftsmen quickly with CraftsGig! Browse reviews and hire trustworthy workers for your project. Check out our deployed site in [craftsgig.me](craftsgig.me), you can learn more in [this blog article](https://omarouaziz.hashnode.dev/how-i-made-craftsgigme). If you want to get in touch [here is my linkedin account](https://www.linkedin.com/in/omar-ouaziz).
 
 ## Installation
 
