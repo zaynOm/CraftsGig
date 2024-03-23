@@ -24,6 +24,7 @@ import {
   CommandItem,
 } from "./ui/command";
 import BASE_URL from "@/api/apiconfig";
+import { ScrollArea } from "./ui/scroll-area";
 
 function AddGigDialog() {
   const { getUserId, getToken } = useAuth();
@@ -95,7 +96,7 @@ function CitiesComboBox({ handleOnSelect }) {
   const [value, setValue] = useState("");
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -104,37 +105,39 @@ function CitiesComboBox({ handleOnSelect }) {
           className="w-40 justify-between"
         >
           {value ? value : `Select city...`}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder={`Search city...`} />
-          <CommandEmpty>No city found.</CommandEmpty>
-          <CommandGroup>
-            {cities &&
-              cities.map((item) => (
-                <CommandItem
-                  key={item.id}
-                  value={item.id}
-                  onSelect={() =>
-                    handleOnSelect((prev) => {
-                      setValue(item.name);
-                      setOpen(false);
-                      return { ...prev, city_id: item.id };
-                    })
-                  }
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === item.name ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {item.name}
-                </CommandItem>
-              ))}
-          </CommandGroup>
+          <ScrollArea className="h-52">
+            <CommandEmpty>No city found.</CommandEmpty>
+            <CommandGroup>
+              {cities &&
+                cities.map((item) => (
+                  <CommandItem
+                    key={item.id}
+                    value={item.id}
+                    onSelect={() =>
+                      handleOnSelect((prev) => {
+                        setValue(item.name);
+                        setOpen(false);
+                        return { ...prev, city_id: item.id };
+                      })
+                    }
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === item.name ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                    {item.name}
+                  </CommandItem>
+                ))}
+            </CommandGroup>
+          </ScrollArea>
         </Command>
       </PopoverContent>
     </Popover>
