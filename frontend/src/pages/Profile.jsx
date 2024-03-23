@@ -42,7 +42,7 @@ export default function Profile() {
           </div>
           {user.role === "worker" && (
             <div className="flex gap-3">
-              <Badge>{user.domain}</Badge>
+              <Badge>{user.domain.title}</Badge>
               <Badge>{user.experience} of experience</Badge>
             </div>
           )}
@@ -57,9 +57,6 @@ export default function Profile() {
               Logout
             </Button>
             <Button variant="outline">Edit profile</Button>
-          </div>
-          <div className="flex gap-3">
-            <span className="text-sm text-gray-500">{user.domain?.title}</span>
           </div>
           <div className="mt-20">
             {user.role === "worker" && !gigsQuery.data?.length ? (
@@ -84,7 +81,7 @@ export default function Profile() {
 
 function Badge({ children }) {
   if (!children) return;
-  return <div className="rounded-md bg-slate-300 px-3 ">{children}</div>;
+  return <div className="rounded-md bg-slate-300 px-3 text-sm">{children}</div>;
 }
 
 function UserGigs({ query }) {
