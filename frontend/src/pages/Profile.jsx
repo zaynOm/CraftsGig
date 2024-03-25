@@ -112,7 +112,7 @@ function UserGigs({ query }) {
       {gigs.map((gig) => (
         <div
           key={gig.id}
-          className="mb-3 h-40 w-auto space-y-5 rounded-md border border-input px-8 py-4"
+          className="mb-3 min-h-40 w-auto space-y-5 rounded-md border border-input px-8 py-4"
         >
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">{gig.title}</h1>
