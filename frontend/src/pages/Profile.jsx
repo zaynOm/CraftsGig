@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trash2Icon } from "lucide-react";
 
 import AddGigDialog from "@/components/AddGigDialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import useQueryFetch from "@/hooks/useQueryFetch";
+import BASE_URL from "@/api/apiconfig";
 
 export default function Profile() {
   const { authenticated, getUserId, logout } = useAuth();
@@ -42,7 +43,7 @@ export default function Profile() {
           </div>
           {user.role === "worker" && (
             <div className="flex gap-3">
-              <Badge>{user.domain.title}</Badge>
+              <Badge>{user.domain?.title}</Badge>
               <Badge>{user.experience} of experience</Badge>
             </div>
           )}
@@ -86,9 +87,25 @@ function Badge({ children }) {
 
 function UserGigs({ query }) {
   const { data: gigs, isError, isLoading } = query;
+  const { getToken } = useAuth();
 
   if (isLoading || !gigs) return "Loading...";
   if (isError) return "Somthing went wrong";
+
+  const deleteGig = async (id) => {
+    try {
+      await fetch(`${BASE_URL}/gigs/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      await query.refetch();
+    } catch (error) {
+      console.error("Error deleting gig:", error);
+    }
+  };
 
   return (
     <div>
@@ -97,7 +114,13 @@ function UserGigs({ query }) {
           key={gig.id}
           className="mb-3 h-40 w-auto space-y-5 rounded-md border border-input px-8 py-4"
         >
-          <h1 className="text-lg font-bold">{gig.title}</h1>
+          <div className="flex justify-between">
+            <h1 className="text-lg font-bold">{gig.title}</h1>
+            <Trash2Icon
+              className="cursor-pointer"
+              onClick={() => deleteGig(gig.id)}
+            />
+          </div>
           <h1 className="overflow-hidden overflow-ellipsis whitespace-nowrap text-lg">
             {gig.description}
           </h1>
