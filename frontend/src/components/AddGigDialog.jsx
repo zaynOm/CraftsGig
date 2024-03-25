@@ -25,9 +25,12 @@ import {
 } from "./ui/command";
 import BASE_URL from "@/api/apiconfig";
 import { ScrollArea } from "./ui/scroll-area";
+import { useQueryClient } from "@tanstack/react-query";
 
 function AddGigDialog() {
   const { getUserId, getToken } = useAuth();
+  const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
   const [newGig, setNewGig] = useState({
     title: "",
     description: "",
@@ -50,10 +53,12 @@ function AddGigDialog() {
     } catch (error) {
       console.error(error);
     }
+    setOpen(false);
+    queryClient.invalidateQueries({ queryKey: ["userGigs"] });
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="size-12 rounded-full p-0">
           <Plus />
