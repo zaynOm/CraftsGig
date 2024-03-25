@@ -27,7 +27,7 @@ export default function Gig() {
                 {data.worker.first_name} {data.worker.last_name}
               </h2>
             </div>
-            <h1 className="max-w-lg whitespace-pre-wrap text-3xl font-bold">
+            <h1 className="max-w-[50rem] whitespace-pre-wrap text-3xl font-bold">
               {data.title}
             </h1>
             <div className="flex gap-3">
