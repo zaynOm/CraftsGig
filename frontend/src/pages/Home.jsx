@@ -23,7 +23,7 @@ function Home() {
   const isAvailable = useRef(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const query = useQueryFetch("gigs", `gigs?${searchParams}`);
+  const query = useQueryFetch("gigs", `/gigs?${searchParams}`);
   const { refetch } = query;
 
   const handleFilterChange = (e, filterKey) => {

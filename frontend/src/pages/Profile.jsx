@@ -21,9 +21,9 @@ export default function Profile() {
     data: user,
     isError,
     isLoading,
-  } = useQueryFetch("user", `users/${userId}`);
+  } = useQueryFetch("user", `/users/${userId}`);
 
-  const gigsQuery = useQueryFetch("userGigs", `users/${userId}/gigs`);
+  const gigsQuery = useQueryFetch("userGigs", `/users/${userId}/gigs`);
 
   if (isError) {
     return <div className="text-center">Something Went Wrong</div>;
