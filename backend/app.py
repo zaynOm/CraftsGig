@@ -14,23 +14,20 @@ from routes.search_filter import blp as FilterBlueprint
 from routes.auth import blp as AuthBlueprint
 
 
-
 app = Flask(__name__)
 
-app.config.from_object('config')
-
+app.config.from_object("config")
 
 
 app.json.sort_keys = False
-#CORS(app, resources={r"/*": {"origins": "*"}})
-CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": ["Authorization", "Content-Type"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 init_db(app)
 migrate = Migrate(app, db)
 api = Api(app)
 jwt = JWTManager(app)
 
 api.spec.components.security_scheme(
-"bearerAuth", {"type":"http", "scheme": "bearer", "bearerFormat": "JWT"}
+    "bearerAuth", {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
 )
 
 create_tables(app)
