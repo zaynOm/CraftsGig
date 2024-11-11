@@ -22,7 +22,8 @@ app.config.from_object('config')
 
 
 app.json.sort_keys = False
-CORS(app, resources={r"/*": {"origins": "*"}})
+#CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": ["Authorization", "Content-Type"]}})
 init_db(app)
 migrate = Migrate(app, db)
 api = Api(app)
