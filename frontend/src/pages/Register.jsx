@@ -74,7 +74,7 @@ function Register() {
 
   useEffect(() => {
     if (authenticated) navigate("/");
-  }, []);
+  }, [authenticated, navigate]);
 
   const watchIsCraftsMan = form.watch("isCraftsMan");
 
@@ -108,159 +108,161 @@ function Register() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto mt-40 flex w-[40%] flex-col space-y-4 rounded-md border border-input p-20"
-      >
-        <FormField
-          control={form.control}
-          name="first_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input {...field} placeholder="First name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="last_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input {...field} placeholder="Last name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input {...field} placeholder="Email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input {...field} type="password" placeholder="Password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirm"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="password"
-                  placeholder="Confirm password"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="birth_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <DatePicker {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {watchIsCraftsMan && (
+    <div className="flex min-h-dvh flex-col items-center justify-center">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="mx-4 mt-40 flex flex-col space-y-4 rounded-md border border-input p-20 xl:w-[40%]"
+        >
           <FormField
             control={form.control}
-            name="domain_id"
+            name="first_name"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <DomainComboBox {...field} />
+                  <Input {...field} placeholder="First name" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        )}
-        {watchIsCraftsMan && (
           <FormField
             control={form.control}
-            name="phone"
+            name="last_name"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} placeholder="Phone" />
+                  <Input {...field} placeholder="Last name" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        )}
-        {watchIsCraftsMan && (
           <FormField
             control={form.control}
-            name="experience"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} placeholder="Experience" />
+                  <Input {...field} placeholder="Email" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        )}
-        <FormField
-          control={form.control}
-          name="isCraftsMan"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <label>
-                  <input
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input {...field} type="password" placeholder="Password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
                     {...field}
-                    type="checkbox"
-                    checked={field.value}
-                    onChange={field.onChange}
-                    className="mr-2"
+                    type="password"
+                    placeholder="Confirm password"
                   />
-                  I im a CraftsMan
-                </label>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />{" "}
+          <FormField
+            control={form.control}
+            name="birth_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <DatePicker {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {watchIsCraftsMan && (
+            <FormField
+              control={form.control}
+              name="domain_id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <DomainComboBox {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           )}
-        />
-        <Button disabled={form.isSubmitting}>
-          {form.isSubmitting ? "Submitting..." : "Sign Up"}
-        </Button>
-        <Link to="/login" className="self-center">
-          <Button variant="link">Alreadey have an account?</Button>
-        </Link>
-        <FormMessage />
-      </form>
-    </Form>
+          {watchIsCraftsMan && (
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input {...field} placeholder="Phone" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          {watchIsCraftsMan && (
+            <FormField
+              control={form.control}
+              name="experience"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input {...field} placeholder="Experience" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          <FormField
+            control={form.control}
+            name="isCraftsMan"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <label>
+                    <input
+                      {...field}
+                      type="checkbox"
+                      checked={field.value}
+                      onChange={field.onChange}
+                      className="mr-2"
+                    />
+                    I im a CraftsMan
+                  </label>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={form.isSubmitting}>
+            {form.isSubmitting ? "Submitting..." : "Sign Up"}
+          </Button>
+          <Link to="/login" className="self-center">
+            <Button variant="link">Alreadey have an account?</Button>
+          </Link>
+          <FormMessage />
+        </form>
+      </Form>
+    </div>
   );
 }
 

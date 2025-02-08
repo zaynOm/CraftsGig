@@ -28,7 +28,7 @@ function Login() {
 
   useEffect(() => {
     if (authenticated) navigate("/");
-  }, []);
+  }, [authenticated, navigate]);
 
   const onSubmit = async (data) => {
     try {
@@ -56,7 +56,7 @@ function Login() {
     <div className="flex min-h-dvh flex-col items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-[40%] flex-col gap-6 rounded-md border border-input p-32"
+        className="mx-4 flex flex-col gap-6 rounded-md border border-input p-16 md:p-32 xl:w-[40%]"
       >
         <h1>Login</h1>
         <Input {...register("email")} type="text" placeholder="Email" />
