@@ -44,7 +44,7 @@ function Home() {
   return (
     <>
       <div className="mt-20 flex min-h-dvh flex-col items-center gap-5">
-        <div className="flex gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           <div className="flex gap-2">
             <Input
               type="text"
@@ -89,7 +89,7 @@ export default Home;
 function Footer() {
   const { authenticated } = useAuth();
   return (
-    <footer className="grid h-96 grid-cols-3 justify-items-center gap-y-24 border-t p-24">
+    <footer className="grid h-96 justify-items-center gap-y-24 border-t p-24 text-center sm:grid-cols-3">
       <div>
         <Link to="/" className="text-4xl font-extrabold">
           CraftsGig

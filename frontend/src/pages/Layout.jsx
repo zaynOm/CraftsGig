@@ -1,13 +1,8 @@
+import { CircleUserRound } from "lucide-react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { CircleUserRound, GithubIcon, GitlabIcon, Twitter } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import {
-  DiscordLogoIcon,
-  GitHubLogoIcon,
-  TwitterLogoIcon,
-} from "@radix-ui/react-icons";
 
 function Navbar() {
   const { authenticated } = useAuth();
