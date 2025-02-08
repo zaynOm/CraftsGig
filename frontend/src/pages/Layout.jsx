@@ -9,7 +9,7 @@ function Navbar() {
 
   return (
     <header>
-      <nav className="flex items-center justify-between p-4">
+      <nav className="container flex items-center justify-between p-4">
         <Link to="/" className="text-2xl font-extrabold">
           CraftsGig
         </Link>

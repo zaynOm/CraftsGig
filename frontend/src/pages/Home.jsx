@@ -89,7 +89,7 @@ export default Home;
 function Footer() {
   const { authenticated } = useAuth();
   return (
-    <footer className="grid h-96 justify-items-center gap-y-24 border-t p-24 text-center sm:grid-cols-3">
+    <footer className="grid h-96 justify-items-center gap-y-24 border-t p-24 text-center sm:grid-cols-3 sm:text-left">
       <div>
         <Link to="/" className="text-4xl font-extrabold">
           CraftsGig

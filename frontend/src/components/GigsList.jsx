@@ -11,7 +11,7 @@ function GigsList({ query }) {
     <div className="my-10">
       {gigs.map((gig) => (
         <Link key={gig.id} to={`/gigs/${gig.id}`}>
-          <div className="mb-3 min-h-40 w-[50rem] rounded-md border border-input py-4 pl-8">
+          <div className="mx-4 mb-3 min-h-40 rounded-md border border-input px-8 py-4 md:w-[50rem]">
             <div className="flex items-center gap-3">
               <div className="h-8 w-8 rounded-full bg-black" />
               <h2>
