@@ -79,7 +79,6 @@ function Register() {
   const watchIsCraftsMan = form.watch("isCraftsMan");
 
   const onSubmit = async (data) => {
-    console.log(data);
     data.birth_date = format(data.birth_date, "yyyy-MM-dd");
     delete data.confirm;
     data.role = data.isCraftsMan ? "worker" : "user";
